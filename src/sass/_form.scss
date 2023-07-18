@@ -1,9 +1,3 @@
-body {
-  padding-left: 15px;
-  padding-right: 15px;
-
-}
-
 img {
   display: block;
   max-width: 100%;
@@ -12,6 +6,8 @@ img {
 }
 
 .gallery {
+    padding-left: 15px;
+      padding-right: 15px;
   display: flex;
   flex-wrap: wrap;
   gap: 15px;
@@ -32,7 +28,36 @@ img {
  background-color: teal;
  padding: 10px 0;
  margin-bottom: 10px;
-}
+};
+
 .info-item {
   text-align: center;
+};
+
+.btn-primary {
+  display: flex;
+ margin: 20px auto;
+ align-items: center;
+}
+
+.submit-btn {
+  margin-left: 10px;
+}
+
+
+.btn.is-hidden {
+  display: none; 
+}
+
+ .spinner-border.is-hidden { 
+  display: none;
+};
+
+.input {
+  width: 300px;
+  font-size: 13px;
+  padding: 6px 0 4px 10px;
+  border: 1px solid #cecece;
+  background: #F6F6f6;
+  border-radius: 8px;
 }
