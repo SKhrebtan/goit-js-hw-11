@@ -1,6 +1,7 @@
 body {
   padding-left: 15px;
   padding-right: 15px;
+
 }
 
 img {
@@ -17,9 +18,21 @@ img {
 }
 
 .photo-card {
+  border: 1px solid grey;
   width: calc((100% - 45px) / 4);
 }
 
 .info {
   display: flex;
+}
+
+.search-form {
+  display: flex;
+ justify-content: center;
+ background-color: teal;
+ padding: 10px 0;
+ margin-bottom: 10px;
+}
+.info-item {
+  text-align: center;
 }
