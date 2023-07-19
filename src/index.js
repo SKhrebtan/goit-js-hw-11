@@ -1,16 +1,13 @@
-import axios from "axios";
 import SimpleLightbox from "simplelightbox";
 import "simplelightbox/dist/simple-lightbox.min.css";
+import fetchImages from './js/axios';
 
-axios.defaults.headers.common["x-api-key"] = "38328283-3432d4ee282ba2126186b7660";
-
-const API_KEY = '38328283-3432d4ee282ba2126186b7660';
 const searchImgForm = document.querySelector('#search-form');
 const galleryContainer = document.querySelector('.gallery');
 const loadMoreBtn = document.querySelector('.load-more');
 const spinner = document.querySelector('.spinner-border');
 
-// axios.get(BASE_URL).then(console.log)
+
 let searchValue = '';
 let currentPage = 1;
 
@@ -24,29 +21,22 @@ searchImgForm.addEventListener('submit', onFormSearch);
 loadMoreBtn.addEventListener('click', onLoadMorePhotos);
 
 
-
-
-function onFormSearch(e) {
+async function onFormSearch(e) {
   e.preventDefault();
-    searchValue = e.currentTarget.elements.searchQuery.value;
+  searchValue = e.currentTarget.elements.searchQuery.value;
   galleryContainer.innerHTML = '';
-  loadMoreBtn.style.display = 'block';
+  loadMoreBtn.style.display = 'none';
   currentPage = 1;
-    const BASE_URL = `https://pixabay.com/api/?key=${API_KEY}&q=${searchValue}&image_type=photo&image_type=photo&orientation=horizontal&safesearch=true&page=${currentPage}&per_page=40`;
-    fetch(BASE_URL)
-    .then(response => response.json())
-        .then(onSearchRenderGallery) 
+  const response = await fetchImages(searchValue, currentPage)
+  return await onSearchRenderGallery(response);
 };
 
-function onLoadMorePhotos() {
-  currentPage += 1;
+async function onLoadMorePhotos() {
+   currentPage += 1;
    loadMoreBtn.disabled = true;
    loadMoreBtn.textContent = 'Loading...';
-  spinner.classList.remove('is-hidden');
-    const BASE_URL = `https://pixabay.com/api/?key=${API_KEY}&q=${searchValue}&image_type=photo&image_type=photo&orientation=horizontal&safesearch=true&page=${currentPage}&per_page=40`;
-    fetch(BASE_URL)
-    .then(response => response.json())
-        .then(onSearchRenderGallery )
+  const response = await fetchImages(searchValue, currentPage);
+  return await onSearchRenderGallery(response);
 }
 
 function onSearchRenderGallery(response) {
@@ -70,9 +60,9 @@ const markup = response.hits.map((item) => {
 </div>`
             }
             ).join('');
-  galleryContainer.insertAdjacentHTML('beforeend', markup);
-           loadMoreBtn.disabled = false;
+          galleryContainer.insertAdjacentHTML('beforeend', markup);
+          loadMoreBtn.style.display = 'block';
+          loadMoreBtn.disabled = false;
           loadMoreBtn.textContent = 'Load more';
-          spinner.classList.add('visually-hidden');
-           lightbox.refresh();
+          lightbox.refresh();
 }
