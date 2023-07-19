@@ -1,15 +1,17 @@
 import SimpleLightbox from "simplelightbox";
 import "simplelightbox/dist/simple-lightbox.min.css";
+import Notiflix from 'notiflix';
 import fetchImages from './js/axios';
 
 const searchImgForm = document.querySelector('#search-form');
 const galleryContainer = document.querySelector('.gallery');
 const loadMoreBtn = document.querySelector('.load-more');
-const spinner = document.querySelector('.spinner-border');
+const submitBtn = document.querySelector('.submit-btn');
 
 
 let searchValue = '';
 let currentPage = 1;
+let currentTotalHits = 0;
 
 const lightbox = new SimpleLightbox('.gallery a', {
   captions: true,
@@ -27,20 +29,57 @@ async function onFormSearch(e) {
   galleryContainer.innerHTML = '';
   loadMoreBtn.style.display = 'none';
   currentPage = 1;
-  const response = await fetchImages(searchValue, currentPage)
-  return await onSearchRenderGallery(response);
+  if (searchValue === '') {
+    return;
+  }
+ 
+  try {
+    const response = await fetchImages(searchValue, currentPage);
+    if (response.totalHits === 0) {
+      Notiflix.Notify.failure("Sorry, there are no images matching your search query. Please try again.");
+      return;
+    }
+    currentTotalHits = response.hits.length;
+    Notiflix.Notify.success(`Hooray! We found ${response.totalHits} images.`);
+    if (currentTotalHits < 40) {
+      Notiflix.Notify.info('We are sorry, but you have reached the end of search results');
+        loadMoreBtn.style.display = 'none';
+    } else {
+      loadMoreBtn.disabled = false;
+     loadMoreBtn.style.display = 'block';
+  };
+      return await onSearchRenderGallery(response);
+  } catch (error) {
+    console.log(error);
+  } 
 };
 
 async function onLoadMorePhotos() {
-   currentPage += 1;
-   loadMoreBtn.disabled = true;
-   loadMoreBtn.textContent = 'Loading...';
-  const response = await fetchImages(searchValue, currentPage);
-  return await onSearchRenderGallery(response);
-}
+  currentPage += 1;
+  loadMoreBtn.disabled = true;
+  loadMoreBtn.textContent = 'Loading...';
+  try {
+    const response = await fetchImages(searchValue, currentPage);
+    if (response.totalHits === 0) {
+      Notiflix.Notify.failure("Sorry, there are no images matching your search query. Please try again.");
+      return;
+    }
+    currentTotalHits += response.hits.length;
+    loadMoreBtn.disabled = false;
+    loadMoreBtn.textContent = 'Load more';
+    if (currentTotalHits === response.totalHits) {
+       Notiflix.Notify.info('We are sorry, but you have reached the end of search results');
+      loadMoreBtn.style.display = 'none';
+    }
+    return await onSearchRenderGallery(response);
+   }
+  catch (error) {
+    console.log(error);
+  }  
+  };
 
 function onSearchRenderGallery(response) {
-const markup = response.hits.map((item) => {
+ const markup = response.hits.map((item) => {
          return `<div class="photo-card">
          <a class="gallery-link" href="${item.largeImageURL}"><img src="${item.webformatURL}" alt="${item.tags}" loading="lazy" /></a>
   <div class="info">
@@ -61,8 +100,5 @@ const markup = response.hits.map((item) => {
             }
             ).join('');
           galleryContainer.insertAdjacentHTML('beforeend', markup);
-          loadMoreBtn.style.display = 'block';
-          loadMoreBtn.disabled = false;
-          loadMoreBtn.textContent = 'Load more';
           lightbox.refresh();
-}
+};
