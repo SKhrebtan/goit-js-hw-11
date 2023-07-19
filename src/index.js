@@ -2,7 +2,6 @@ import SimpleLightbox from "simplelightbox";
 import "simplelightbox/dist/simple-lightbox.min.css";
 import Notiflix from 'notiflix';
 import fetchImages from './js/axios';
-import InfiniteScroll from 'infinite-scroll';
 
 const searchImgForm = document.querySelector('#search-form');
 const galleryContainer = document.querySelector('.gallery');
@@ -83,16 +82,16 @@ function onSearchRenderGallery(response) {
                             <a class="gallery-link" href="${item.largeImageURL}"><img src="${item.webformatURL}" alt="${item.tags}" loading="lazy" /></a>
   <div class="info">
    <p class="info-item">
-      <b>Likes: ${item.likes}</b>
+      <b>Likes  ${item.likes}</b>
     </p>
     <p class="info-item">
-      <b>Views: ${item.views}</b>
+      <b>Views  ${item.views}</b>
     </p>
     <p class="info-item">
-      <b>Comments: ${item.comments}</b>
+      <b>Comments  ${item.comments}</b>
     </p>
     <p class="info-item">
-      <b>Downloads: ${item.downloads}</b>
+      <b>Downloads  ${item.downloads}</b>
     </p>
   </div>       
 </div>`
@@ -100,7 +99,7 @@ function onSearchRenderGallery(response) {
             ).join('');
           galleryContainer.insertAdjacentHTML('beforeend', markup);
   lightbox.refresh();
-  onRenderScroll();
+   onRenderScroll();
  };
 
 function onRenderScroll() {
@@ -114,10 +113,26 @@ function onRenderScroll() {
   });
 };
 
- const infScroll = new InfiniteScroll( '.gallery', {
-  // options
-  path: '.pagination__next',
-  append: '.photo-card',
-  history: false,
-});
+// const options = {
+//     // root: document.querySelector('.gallery'),
+//     rootMargin: '0px',
+//     threshold: 1.0
+// }
+
+// const observer = new IntersectionObserver(callback, options);
+
+// observer.observe('.photo-card');
+
+// const callback = function(entries, observer) {
+// 	entries.forEach((entry) => {
+		
+// 	});
+// }
+
+
+
+
+
+
+
 
