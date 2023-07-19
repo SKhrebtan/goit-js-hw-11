@@ -2,12 +2,11 @@ import SimpleLightbox from "simplelightbox";
 import "simplelightbox/dist/simple-lightbox.min.css";
 import Notiflix from 'notiflix';
 import fetchImages from './js/axios';
+import InfiniteScroll from 'infinite-scroll';
 
 const searchImgForm = document.querySelector('#search-form');
 const galleryContainer = document.querySelector('.gallery');
 const loadMoreBtn = document.querySelector('.load-more');
-const submitBtn = document.querySelector('.submit-btn');
-
 
 let searchValue = '';
 let currentPage = 1;
@@ -21,7 +20,6 @@ const lightbox = new SimpleLightbox('.gallery a', {
 
 searchImgForm.addEventListener('submit', onFormSearch);
 loadMoreBtn.addEventListener('click', onLoadMorePhotos);
-
 
 async function onFormSearch(e) {
   e.preventDefault();
@@ -43,13 +41,13 @@ async function onFormSearch(e) {
     Notiflix.Notify.success(`Hooray! We found ${response.totalHits} images.`);
     if (currentTotalHits < 40) {
       Notiflix.Notify.info('We are sorry, but you have reached the end of search results');
-        loadMoreBtn.style.display = 'none';
-    } else {
+           } else {
       loadMoreBtn.disabled = false;
-     loadMoreBtn.style.display = 'block';
+      loadMoreBtn.style.display = 'block';
   };
       return await onSearchRenderGallery(response);
   } catch (error) {
+    Notiflix.Notify.warning('Щось пішло не так');
     console.log(error);
   } 
 };
@@ -74,14 +72,15 @@ async function onLoadMorePhotos() {
     return await onSearchRenderGallery(response);
    }
   catch (error) {
+    Notiflix.Notify.warning('Щось пішло не так');
     console.log(error);
   }  
   };
 
 function onSearchRenderGallery(response) {
  const markup = response.hits.map((item) => {
-         return `<div class="photo-card">
-         <a class="gallery-link" href="${item.largeImageURL}"><img src="${item.webformatURL}" alt="${item.tags}" loading="lazy" /></a>
+   return `<div class="photo-card">
+                            <a class="gallery-link" href="${item.largeImageURL}"><img src="${item.webformatURL}" alt="${item.tags}" loading="lazy" /></a>
   <div class="info">
    <p class="info-item">
       <b>Likes: ${item.likes}</b>
@@ -95,10 +94,30 @@ function onSearchRenderGallery(response) {
     <p class="info-item">
       <b>Downloads: ${item.downloads}</b>
     </p>
-  </div>
+  </div>       
 </div>`
             }
             ).join('');
           galleryContainer.insertAdjacentHTML('beforeend', markup);
-          lightbox.refresh();
+  lightbox.refresh();
+  onRenderScroll();
+ };
+
+function onRenderScroll() {
+  const { height: cardHeight } = document
+    .querySelector(".gallery")
+    .firstElementChild.getBoundingClientRect();
+
+  window.scrollBy({
+    top: cardHeight * 15,
+    behavior: "smooth",
+  });
 };
+
+ const infScroll = new InfiniteScroll( '.gallery', {
+  // options
+  path: '.pagination__next',
+  append: '.photo-card',
+  history: false,
+});
+

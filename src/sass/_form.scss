@@ -43,6 +43,15 @@ img {
 
 .submit-btn {
   margin-left: 10px;
+  border: none;
+  padding: 10px 20px;
+  background-color: crimson;
+  border-radius: 10px;
+  transition: all 300ms linear;
+}
+
+.submit-btn:hover {
+  background-color: green;
 }
 
 
@@ -62,3 +71,5 @@ img {
   background: #F6F6f6;
   border-radius: 8px;
 }
+
+
