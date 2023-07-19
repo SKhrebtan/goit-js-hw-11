@@ -2,10 +2,12 @@ import SimpleLightbox from "simplelightbox";
 import "simplelightbox/dist/simple-lightbox.min.css";
 import Notiflix from 'notiflix';
 import fetchImages from './js/axios';
+import {Spinner} from 'spin.js';
 
 const searchImgForm = document.querySelector('#search-form');
 const galleryContainer = document.querySelector('.gallery');
 const loadMoreBtn = document.querySelector('.load-more');
+const spinner = document.querySelector('.spin');
 
 let searchValue = '';
 let currentPage = 1;
@@ -16,6 +18,26 @@ const lightbox = new SimpleLightbox('.gallery a', {
   captionsData: 'alt',
   captionDelay: 250,
 });
+const target = document.querySelector('.spin');
+const opts = {
+  lines: 10, // The number of lines to draw
+  length: 6, // The length of each line
+  width: 4, // The line thickness
+  radius: 4, // The radius of the inner circle
+  scale: 1, // Scales overall size of the spinner
+  corners: 1, // Corner roundness (0..1)
+  speed: 1, // Rounds per second
+  rotate: 0, // The rotation offset
+  animation: 'spinner-line-fade-quick', // The CSS animation name for the lines
+  direction: 1, // 1: clockwise, -1: counterclockwise
+  color: '#fc8a11', // CSS color or array of colors
+  fadeColor: 'transparent', // CSS color or array of colors
+  
+  shadow: '0 0 1px transparent', // Box-shadow for the lines
+  zIndex: 2000000000, // The z-index (defaults to 2e9)
+  className: 'spinner', // The CSS class to assign to the spinner
+ };
+new Spinner(opts).spin(target);
 
 searchImgForm.addEventListener('submit', onFormSearch);
 loadMoreBtn.addEventListener('click', onLoadMorePhotos);
@@ -24,6 +46,7 @@ async function onFormSearch(e) {
   e.preventDefault();
   searchValue = e.currentTarget.elements.searchQuery.value;
   galleryContainer.innerHTML = '';
+  spinner.style.display = 'none';
   loadMoreBtn.style.display = 'none';
   currentPage = 1;
   if (searchValue === '') {
@@ -54,6 +77,7 @@ async function onFormSearch(e) {
 async function onLoadMorePhotos() {
   currentPage += 1;
   loadMoreBtn.disabled = true;
+  spinner.style.display = 'block';
   loadMoreBtn.textContent = 'Loading...';
   try {
     const response = await fetchImages(searchValue, currentPage);
@@ -63,6 +87,7 @@ async function onLoadMorePhotos() {
     }
     currentTotalHits += response.hits.length;
     loadMoreBtn.disabled = false;
+     spinner.style.display = 'none';
     loadMoreBtn.textContent = 'Load more';
     if (currentTotalHits === response.totalHits) {
        Notiflix.Notify.info('We are sorry, but you have reached the end of search results');
@@ -128,6 +153,10 @@ function onRenderScroll() {
 		
 // 	});
 // }
+
+
+
+
 
 
 

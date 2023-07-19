@@ -10,6 +10,7 @@
       integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM"
       crossorigin="anonymous"
     />
+    <link rel="stylesheet" href="../node_modules/spin.js/spin.css" />
     <link rel="stylesheet" href="./sass/index.scss" />
     <script type="module" src="./index.js"></script>
     <script type="module" src="./js/btntotop.js"></script>
@@ -24,9 +25,9 @@
     </form>
     <div class="gallery" id="scrollableDiv"></div>
     <button class="btn btn-primary load-more is-hidden" type="button" disabled>
-      <div class="lds-dual-ring"></div>
       <span class="load-span">Load more</span>
     </button>
+    <span class="spin is-hidden"></span>
     <button id="myBtn" title="Go to top" type="button">
       <svg width="32" height="32" class="arrow">
         <use href="./images/icons.svg#icon-arrow"></use>

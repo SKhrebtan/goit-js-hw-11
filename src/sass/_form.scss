@@ -65,7 +65,7 @@ img {
   display: none; 
 }
 
- .spinner-border.is-hidden { 
+ .spin.is-hidden { 
   display: none;
 };
 
@@ -111,4 +111,9 @@ img {
   }
 }
 
+.spin {
+  position: fixed;
+  bottom: 40px;
+  left: 45%;
+}
 
