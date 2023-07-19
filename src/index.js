@@ -93,7 +93,7 @@ async function onLoadMorePhotos() {
     spinner.style.display = 'none';
     btnSpinner.classList.add('is-hidden');
     loadSpan.textContent = 'Load more';
-    if (currentTotalHits === response.totalHits) {
+       if (currentTotalHits === response.totalHits || currentTotalHits > response.totalHits) {
        Notiflix.Notify.info('We are sorry, but you have reached the end of search results');
       loadMoreBtn.style.display = 'none';
     }
