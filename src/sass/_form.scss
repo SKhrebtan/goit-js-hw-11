@@ -7,16 +7,20 @@ img {
 }
 
 .gallery {
-    padding-left: 15px;
-      padding-right: 15px;
+
+  margin: 0 auto;
+  padding-left: 15px;
+  padding-right: 15px;
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
   gap: 15px;
 }
 
 .photo-card {
+  max-width: 420px;
   border: 1px solid grey;
-  width: calc((100% - 45px) / 4);
+  // width: calc((100% - 45px) / 4);
   border-bottom-left-radius: 5%;
   border-bottom-right-radius: 5%;
   box-shadow: 3px 3px 6px 1px rgba(0, 0, 0, .5);
@@ -32,7 +36,7 @@ img {
   display: flex;
  justify-content: center;
  background-color: #fc8a11;
- padding: 10px 0;
+ padding: 10px 15px;
  margin-bottom: 10px;
 };
 
@@ -48,7 +52,6 @@ img {
 }
 
 .submit-btn {
-  // margin-left: 10px;
   border: none;
   padding: 10px 20px;
   background-color: lightgrey;
@@ -110,6 +113,10 @@ img {
     color: #fc8a11;
     background-color: black;
   }
+  .photo-card {
+    width: calc((100% - 45px) / 4);
+  }
+ 
 }
 
 .spin {
