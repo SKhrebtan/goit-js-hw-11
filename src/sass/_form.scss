@@ -44,6 +44,7 @@ img {
   display: flex;
  margin: 20px auto;
  align-items: center;
+ width: 120px;
 }
 
 .submit-btn {
@@ -65,7 +66,7 @@ img {
   display: none; 
 }
 
- .spin.is-hidden { 
+ .is-hidden { 
   display: none;
 };
 
@@ -114,6 +115,6 @@ img {
 .spin {
   position: fixed;
   bottom: 40px;
-  left: 45%;
+  left: 44%;
 }
 
