@@ -124,6 +124,17 @@ img {
   fill: currentColor;
 }
 
+@media screen and (min-width: 600px) {
+.photo-card {
+    width: calc((100% - 15px) / 2);
+  }
+}
+
+@media screen and (min-width: 900px) {
+  .photo-card {
+    width: calc((100% - 30px) / 3);
+  }
+}
 
 @media screen and (min-width: 1158px) {
 
