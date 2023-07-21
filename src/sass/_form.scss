@@ -44,6 +44,12 @@ img {
   text-align: center;
 };
 
+.spin {
+  position: fixed;
+  bottom: 40px;
+  left: 35%;
+}
+
 .btn-primary {
   display: flex;
  margin: 20px auto;
@@ -102,26 +108,38 @@ img {
   transition: all 250ms linear;
 }
 
+.btntobottom {
+  display: none;
+  position: fixed;
+  right: 20px;
+  top: 70px;
+  border-radius: 50px;
+  border-color: transparent;
+  background-color: #fc8a11;
+  color: black;
+  transition: all 250ms linear;
+}
+
 .arrow {
   fill: currentColor;
 }
 
+
 @media screen and (min-width: 1158px) {
 
   #myBtn:hover,
-  #myBtn:focus {
+  #myBtn:focus,
+  .btntobottom:hover {
     color: #fc8a11;
     background-color: black;
   }
   .photo-card {
     width: calc((100% - 45px) / 4);
   }
- 
+        .spin {
+          left: 44%;
+        }
 }
 
-.spin {
-  position: fixed;
-  bottom: 40px;
-  left: 44%;
-}
+
 

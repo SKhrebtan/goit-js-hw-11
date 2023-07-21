@@ -2,7 +2,7 @@ import SimpleLightbox from "simplelightbox";
 import "simplelightbox/dist/simple-lightbox.min.css";
 import Notiflix from 'notiflix';
 import fetchImages from './js/axios';
-import {Spinner} from 'spin.js';
+import { Spinner } from 'spin.js';
 
 const searchImgForm = document.querySelector('#search-form');
 const galleryContainer = document.querySelector('.gallery');
